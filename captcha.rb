@@ -54,14 +54,3 @@ class Captcha
     (2 + rand(2)) / 10.0
   end
 end
-
-# let's create an captcha sample
-
-require 'faker'
-text = Faker::Lorem.characters(6) #=> "ang9cb"
-image = Captcha.generate text, 400, 200, 80
-
-File.open('captcha.jpg', 'wb') do|f|
-  f.write(image)
-end
-
