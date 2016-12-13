@@ -42,7 +42,45 @@ class Solver
   end
 
   def enhance(img)
-    img
+    # clean extra noise
+    clean_image img
+    # fill blank spots
+    fill img
+    # soft edges
+    img = img.gaussian_blur 0.5, 0.5
+    # cut white space to improve ocr accuracy
+    trim(img)
+  end
+
+  def fill(img, range = 3, color = 'black')
+    process img, color, range
+  end
+
+  def clean_image(img, range = 4, color = 'white')
+    process img, color, range
+  end
+
+  def trim(img)
+    img.fuzz = 1
+    img.trim!
+  end
+
+  def process(img, color, range)
+    img.each_pixel do |_pixel, c, r|
+      next if border?(c, range, img.columns) || border?(r, range, img.rows)
+      # Determinamos la cantidad de pixeles del mismo color
+      # en un bloque range * range alrededor del pixel actual
+      pixels = img.get_pixels(c, r, range, range).map do |e|
+        e if e.to_color.eql? color
+      end
+      # Si la cantidad de pixeles es mayor al radio son puntos
+      # que se deben pintar
+      img.pixel_color(c, r, color) if pixels.compact.size >= range
+    end
+  end
+
+  def border?(pixel, range, max)
+    pixel < range || pixel > (max - range)
   end
 
   def extract_characters
