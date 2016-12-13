@@ -13,7 +13,10 @@ class Test
     create_image path, text
 
     # solving captcha
-    solve path
+    result = solve path
+
+    success = text.eql? result
+    puts "It's a #{success.to_s} result"
   end
 
   def self.random_text
@@ -40,6 +43,7 @@ class Test
     puts 'Solving captcha'
     result = solver.solve path
     puts "result: #{result}"
+    result
   end
 end
 
