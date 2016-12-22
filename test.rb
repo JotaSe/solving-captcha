@@ -16,7 +16,8 @@ class Test
     result = solve path
 
     success = text.eql? result
-    puts "It's a #{success.to_s} result"
+    puts "It's a #{success} result"
+    success
   end
 
   def self.random_text
@@ -34,7 +35,7 @@ class Test
     # instance a solver class
     args = {
       psm: 7, # this is how ocr will work https://github.com/tesseract-ocr/tesseract/wiki/Command-Line-Usage
-      options: :alphanum, # check other options https://github.com/dannnylo/rtesseract
+      options: :test, # check other options https://github.com/dannnylo/rtesseract
       lang: :eng # languate option, we will set eng as default
     }
     solver = Solver.new args
@@ -45,6 +46,13 @@ class Test
     puts "result: #{result}"
     result
   end
+
+  def self.benchmark(n)
+    success = 0
+    n.times { success += 1 if run }
+    acc = (success.to_f / n) * 100
+    puts "Accuracy #{acc} %"
+  end
 end
 
-Test.run
+Test.benchmark(ARGV.first.to_i)
