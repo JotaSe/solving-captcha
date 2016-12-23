@@ -28,7 +28,8 @@ class Solver
     # args X, Y, width, height
     img.crop!(50, 60, 300, 80)
 
-    img.scale! 0.5
+    # reduce size
+    img.scale! 0.75
 
     # transform image into gray scale colors
     img = img.quantize(128, Magick::GRAYColorspace)
@@ -52,8 +53,6 @@ class Solver
     img = img.gaussian_blur 0.5, 0.5
     # cut white space to improve ocr accuracy
     trim(img)
-    # reduce size
-    img.scale! 0.75
   end
 
   # Fill white spots with black pixels
