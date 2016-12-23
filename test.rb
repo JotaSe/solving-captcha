@@ -34,7 +34,7 @@ class Test
     # instance a solver class
     args = {
       psm: 7, # this is how ocr will work https://github.com/tesseract-ocr/tesseract/wiki/Command-Line-Usage
-      options: :alphanum, # check other options https://github.com/dannnylo/rtesseract
+      options: :captcha, # check other options https://github.com/dannnylo/rtesseract
       lang: :eng # languate option, we will set eng as default
     }
     solver = Solver.new args
