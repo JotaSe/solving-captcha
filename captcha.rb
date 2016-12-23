@@ -39,8 +39,18 @@ class Captcha
   end
 
   def self.apply_distortion!(image)
+    image = image.wave *random_wave_distortion
+    image = image.implode random_implode_distortion
     image = image.swirl rand(10)
     image = image.add_noise Magick::ImpulseNoise
     image
+  end
+
+  def self.random_wave_distortion
+    [2 + rand(2), 40 + rand(20)]
+  end
+
+  def self.random_implode_distortion
+    (2 + rand(2)) / 20.0
   end
 end
