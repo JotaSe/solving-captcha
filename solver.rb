@@ -28,7 +28,7 @@ class Solver
     # args X, Y, width, height
     img.crop!(50, 60, 300, 80)
 
-    # img.scale! 0.5
+    img.scale! 0.5
 
     # transform image into gray scale colors
     img = img.quantize(128, Magick::GRAYColorspace)
@@ -54,40 +54,45 @@ class Solver
     trim(img)
     # reduce size
     img.scale! 0.75
-
   end
 
+  # Fill white spots with black pixels
   def fill(img, range = 3, color = 'black')
     process img, color, range
   end
 
+  # Clean noise
   def clean_image(img, range = 4, color = 'white')
     process img, color, range
   end
 
+  # trim image
   def trim(img)
     img.fuzz = 1
     img.trim!
   end
 
+  # replace colors in a range
   def process(img, color, range)
     img.each_pixel do |_pixel, c, r|
       next if border?(c, range, img.columns) || border?(r, range, img.rows)
-      # Determinamos la cantidad de pixeles del mismo color
-      # en un bloque range * range alrededor del pixel actual
+      # get the pixel amount for each color
+      # in a range * range block around the current pixel
       pixels = img.get_pixels(c, r, range, range).map do |e|
         e if e.to_color.eql? color
       end
-      # Si la cantidad de pixeles es mayor al radio son puntos
-      # que se deben pintar
+      # if the pixel amount it's bigger than ratio,
+      # then they're dots that have to be painted
       img.pixel_color(c, r, color) if pixels.compact.size >= range
     end
   end
 
+  # check if current pixel belong from image's border
   def border?(pixel, range, max)
     pixel < range || pixel > (max - range)
   end
 
+  #
   def extract_characters
     text = RTesseract.new(@solved_path,
                           lang: @lang,

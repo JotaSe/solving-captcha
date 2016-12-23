@@ -16,7 +16,8 @@ class Test
     result = solve path
 
     success = text.eql? result
-    puts "It's a #{success.to_s} result"
+    puts "It's a #{success} result"
+    success
   end
 
   def self.random_text
@@ -45,6 +46,13 @@ class Test
     puts "result: #{result}"
     result
   end
+
+  def self.benchmark(n)
+    success = 0
+    n.times { success += 1 if run }
+    acc = (success.to_f / n) * 100
+    puts "Accuracy #{acc} %"
+  end
 end
 
-Test.run
+Test.benchmark(ARGV.first.to_i)
