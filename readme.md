@@ -1,2 +1,1 @@
-config:
-  tessedit_char_whitelist abcdefghijklmnñopqrstuvwxyz1234567890
+Project example to solve captchas
