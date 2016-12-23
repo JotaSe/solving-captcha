@@ -1,4 +1,4 @@
-require 'RMagick'
+require 'rmagick'
 
 class Captcha
   # Generates the CAPTCHA image with +captcha_text+

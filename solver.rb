@@ -1,5 +1,5 @@
 require 'rtesseract'
-require 'RMagick'
+require 'rmagick'
 
 # Transform and solve captchas
 class Solver
